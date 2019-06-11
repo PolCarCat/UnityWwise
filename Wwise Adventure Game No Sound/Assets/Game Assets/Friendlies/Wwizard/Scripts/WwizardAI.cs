@@ -12,6 +12,13 @@ public class WwizardAI : Creature
     [Header("Wwise")]
     public MaterialChecker matChecker;
 
+    [Header("Audio Source")]
+    public AudioSource SFX_Player;
+
+    [Header("Clips")]
+    public AudioClip poofFx;
+    public AudioClip staffFx;
+
     [Header("Idle Gimmick 1 Poof Objects")]
     public GameObject Gimmick1PoofParticles;
     public GameObject Gimmick1PoofTransform;
@@ -57,6 +64,9 @@ public class WwizardAI : Creature
         {
             GameObject p = Instantiate(Gimmick1PoofParticles, Gimmick1PoofTransform.transform.position + Gimmick1Displacement, Quaternion.identity) as GameObject;
             // HINT: You might want to play the Poof gimmick sound here
+
+            SFX_Player.clip = poofFx;
+            SFX_Player.Play();
             Destroy(p, 5f);
         }
     }
@@ -96,6 +106,8 @@ public class WwizardAI : Creature
     {
         matChecker.CheckMaterial(gameObject);
         // HINT: You might want to play the staff ground hit here
+        SFX_Player.clip = staffFx;
+        SFX_Player.Play();
     }
 }
 

@@ -15,6 +15,14 @@ public class WwizardStaffChargeParticles : MonoBehaviour
 
     public float refreshSpeed = 0.1f;
 
+    [Header("Audio Source")]
+    public AudioSource SFX_Player;
+
+    [Header("Clips")]
+    public AudioClip chargingFx;
+    public AudioClip unchargingFx;
+
+
     public AnimationCurve yOffsets;
     public int extraSteps = 5;
     public float animationStrength = 1f;
@@ -39,6 +47,8 @@ public class WwizardStaffChargeParticles : MonoBehaviour
         if (endPoint != null)
         {
             // HINT: Wizard staff charge particles appear, you may want to play the appropiate sound effect here
+            SFX_Player.clip = chargingFx;
+            SFX_Player.Play();
             chargeRoutine = AnimatePoints();
             StartCoroutine(chargeRoutine);
 
@@ -76,6 +86,8 @@ public class WwizardStaffChargeParticles : MonoBehaviour
     void OnDisable()
     {
         // HINT: Wizard staff charge particles disappear, you may want to play the appropiate sound effect here
+        SFX_Player.clip = unchargingFx;
+        SFX_Player.Play();
         StopCoroutine(chargeRoutine);
         if (lineRenderer != null)
         {
