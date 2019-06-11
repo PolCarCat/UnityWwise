@@ -48,10 +48,16 @@ public class Inventory : MonoBehaviour
     public Material NotSelectedMaterial;
     public Material NotPickedUpMaterial;
     public GameObject SelectedGameobject;
-
+    
     public bool debugMode = false;
     [ShowIf("debugMode", true)]
     public PlayerManager.InventoryObjects InventoryReference;
+
+    public AudioSource InventoryAudioSource;
+    public AudioClip InventoryOpen;
+    public AudioClip InventoryClose;
+    //public AudioClip InventoryScroll;
+    public AudioClip InventorySelect;
 
     public static bool InventoryIsOut = false;
 
@@ -706,6 +712,8 @@ public class Inventory : MonoBehaviour
         if (!Menu.isOpen && DialogueManager.Instance.Dialogue.Count < 1 && !InventoryIsOut)
         {
             canvasGroup.interactable = true;
+            InventoryAudioSource.clip = InventoryOpen;
+            InventoryAudioSource.Play();
             // HINT: You might want to play the inventory opened sound here
             InventoryIsOut = true;
             if (EventSystem.current != null)
@@ -729,6 +737,8 @@ public class Inventory : MonoBehaviour
         {
             canvasGroup.interactable = false;
             // HINT: You might want to play the inventory closed sound here
+            InventoryAudioSource.clip = InventoryClose;
+            InventoryAudioSource.Play();
             InventoryIsOut = false;
             GameManager.Instance.gameSpeedHandler.UnPauseGameSpeed(gameObject.GetInstanceID());
 
@@ -785,7 +795,8 @@ public class Inventory : MonoBehaviour
     public void ButtonIncrement(int layer)
     {
         // HINT: You may want to play the inventory select sound here
-
+        InventoryAudioSource.clip = InventorySelect;
+        InventoryAudioSource.Play();
         if (Panel.activeInHierarchy && hasShown)
         {
             if (layer == 0)
@@ -809,6 +820,8 @@ public class Inventory : MonoBehaviour
     public void InversedIncrement(int layer)
     {
         // HINT: You may want to play the inventory select sound here
+        InventoryAudioSource.clip = InventorySelect;
+        InventoryAudioSource.Play();
         if (Panel.activeInHierarchy && hasShown)
         {
             if (layer == 0)

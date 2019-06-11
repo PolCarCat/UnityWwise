@@ -22,6 +22,10 @@ public class Menu : MonoBehaviour
 
     public MenuEvent OnMenuDown;
 
+    public AudioSource MenuAudioSource;
+    public AudioClip MenuOpen;
+    public AudioClip MenuClose;
+
     private bool menuOpen = false;
 
     public void Update()
@@ -50,6 +54,8 @@ public class Menu : MonoBehaviour
             if (menuOpen)
             {
                 // HINT: Play menu open sound here
+                MenuAudioSource.clip = MenuOpen;
+                MenuAudioSource.Play();
                 GameManager.Instance.gameSpeedHandler.PauseGameSpeed(gameObject.GetInstanceID());
                 GameManager.Instance.BlurCam();
 
@@ -61,6 +67,8 @@ public class Menu : MonoBehaviour
             }
             else
             {
+                MenuAudioSource.clip = MenuClose;
+                MenuAudioSource.Play();
                 // HINT: Play menu close sound here
                 GameManager.Instance.gameSpeedHandler.UnPauseGameSpeed(gameObject.GetInstanceID());
                 GameManager.Instance.UnBlurCam();
