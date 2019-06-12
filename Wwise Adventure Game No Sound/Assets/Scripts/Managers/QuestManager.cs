@@ -17,7 +17,7 @@ public class QuestManager : Singleton<QuestManager>
     [Header("Dialogue")]
     public bool FreezePlayerMovement = true;
 
-    AudioSource source;
+    AudioSource audio_source;
 
 
     public class QuestItemInfo
@@ -60,7 +60,7 @@ public class QuestManager : Singleton<QuestManager>
     void Awake()
     {
         QuestItems = new List<QuestItemInfo>();
-        source = GameObject.FindGameObjectWithTag("UIAudio").GetComponent<AudioSource>();
+        audio_source = GameObject.FindGameObjectWithTag("UIAudio").GetComponent<AudioSource>();
     }
 
     public static void PushQuestBarUpdate()
@@ -100,6 +100,6 @@ public class QuestManager : Singleton<QuestManager>
     {
         float percentage = ((float)mainQuestProgress / (float)AmountOfQuests) * 100f;
         QuestProgressRTPC = percentage;
-        // HINT: Progress RPTC changed, do you need to update anything here?
+        audio_source.PlayOneShot(Resources.Load<AudioClip>("Audio/Interface/BAS_QuestRoll_Open"));
     }
 }
