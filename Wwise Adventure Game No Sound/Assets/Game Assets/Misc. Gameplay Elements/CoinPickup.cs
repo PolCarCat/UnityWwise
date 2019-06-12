@@ -13,12 +13,13 @@ public class CoinPickup : MonoBehaviour {
 
     public bool playSpawnSoundAtSpawn = true;
 
-    public AudioClip pickup;
+    public AudioClip[] pickup;
+    public AudioClip spawn;
 
 	void Start(){
         if (playSpawnSoundAtSpawn){
             // HINT: You might want to play the Coin pickup sound here
-            GetComponent<AudioSource>().PlayOneShot(pickup);
+            GetComponent<AudioSource>().PlayOneShot(spawn);
         }
 	}
 
@@ -26,6 +27,6 @@ public class CoinPickup : MonoBehaviour {
 		InteractionManager.SetCanInteract(this.gameObject, false);
 		GameManager.Instance.coinHandler.AddCoin ();
         //Destroy (gameObject, 0.1f); //TODO: Pool instead?
-        GetComponent<AudioSource>().PlayOneShot(pickup);
+        GetComponent<AudioSource>().PlayOneShot(pickup[Random.Range(0, pickup.Length)]);
     }
 }

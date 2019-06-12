@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public float speedWhileAttacking = 0.8f;
     public float currentSpeed = 0;
 
+    public uint weaponstate = 0;
+
     [Header("Physics Materials")]
     public PhysicMaterial frictionPhysMat;
     public PhysicMaterial noFrictionPhysMat;

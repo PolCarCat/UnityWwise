@@ -21,25 +21,16 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
     private GameObject runParticles;
 
     [Header("Combat Audios")]
-    public AudioClip sword1;
-    public AudioClip sword2;
-    public AudioClip sword3;
 
-    public AudioClip dagger1;
-    public AudioClip dagger2;
-    public AudioClip dagger3;
+    public uint weaponState = 0;
 
-    public AudioClip hammer1;
-    public AudioClip hammer2;
-    public AudioClip hammer3;
+    public AudioClip miss1;
+    public AudioClip miss2;
+    public AudioClip miss3;
 
-    public AudioClip pickaxe1;
-    public AudioClip pickaxe2;
-    public AudioClip pickaxe3;
-
-    public AudioClip axe1;
-    public AudioClip axe2;
-    public AudioClip axe3;
+    public AudioClip sword;
+    public AudioClip dagger;
+    public AudioClip axe;
 
     private PlayerFoot foot_L;
     private PlayerFoot foot_R;
@@ -190,87 +181,22 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
         // HINT: PlayerManager.Instance.weaponSlot contains the selected weapon;
         // HINT: This is a good place to play the weapon swing sounds
 
-        int state = 0;
 
         AnimatorStateInfo currentAnimation = PlayerManager.Instance.playerAnimator.GetCurrentAnimatorStateInfo(0);
-
-        if (currentAnimation.IsName("Player_RightSwing")) state = 1;
-        else if (currentAnimation.IsName("Player_LeftSwing")) state = 2;
-        else if (currentAnimation.IsName("Player_TopSwing")) state = 3;
-
-        switch (W.weaponType) 
+        if (currentAnimation.IsName("Player_RightSwing"))
         {
-            case WeaponTypes.Axe:
-                switch (state)
-                {
-                    case 1:
-                        audioSource.PlayOneShot(axe1);
-                        break;
-                    case 2:
-                        audioSource.PlayOneShot(axe2);
-                        break;
-                    case 3:
-                        audioSource.PlayOneShot(axe3);
-                        break;
-                }
-            break;
-            case WeaponTypes.Dagger:
-                switch (state)
-                {
-                    case 1:
-                        audioSource.PlayOneShot(dagger1);
-                        break;
-                    case 2:
-                        audioSource.PlayOneShot(dagger2);
-                        break;
-                    case 3:
-                        audioSource.PlayOneShot(dagger3);
-                        break;
-                }
-                break;
-            case WeaponTypes.Sword:
-                switch (state)
-                {
-                    case 1:
-                        audioSource.PlayOneShot(sword1);
-                        break;
-                    case 2:
-                        audioSource.PlayOneShot(sword2);
-                        break;
-                    case 3:
-                        audioSource.PlayOneShot(sword3);
-                        break;
-                }
-                break;
-            case WeaponTypes.PickAxe:
-                switch (state)
-                {
-                    case 1:
-                        audioSource.PlayOneShot(pickaxe1);
-                        break;
-                    case 2:
-                        audioSource.PlayOneShot(pickaxe2);
-                        break;
-                    case 3:
-                        audioSource.PlayOneShot(pickaxe3);
-                        break;
-                }
-                break;
-            case WeaponTypes.Hammer:
-                switch (state)
-                {
-                    case 1:
-                        audioSource.PlayOneShot(hammer1);
-                        break;
-                    case 2:
-                        audioSource.PlayOneShot(hammer2);
-                        break;
-                    case 3:
-                        audioSource.PlayOneShot(hammer3);
-                        break;
-                }
-                break;
+            audioSource.PlayOneShot(miss1);
         }
+        else if (currentAnimation.IsName("Player_LeftSwing"))
+        {
+            audioSource.PlayOneShot(miss2);
+        }
+        else if (currentAnimation.IsName("Player_TopSwing"))
+        {
+             audioSource.PlayOneShot(miss3);
+        }
+          
+        
     }
 
     public void PauseMovement()
@@ -307,11 +233,39 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
     {
         PlayerManager.Instance.PickUpEvent();
         // HINT: This is a good place to play the Get item sound and stinger
+
+        Weapon W = PlayerManager.Instance.equippedWeaponInfo;
+        switch (W.weaponType)
+        {
+            case WeaponTypes.Axe:
+                audioSource.PlayOneShot(axe);
+                break;
+            case WeaponTypes.Dagger:
+                audioSource.PlayOneShot(dagger);
+                break;
+            case WeaponTypes.Sword:
+                audioSource.PlayOneShot(sword);
+                break;
+        }
+
     }
 
     public void WeaponSound()
     {
         Weapon EquippedWeapon = PlayerManager.Instance.equippedWeaponInfo;
         // HINT: This is a good place to play equipped weapon impact sound
+        Debug.Log("Weapon");
+        switch (EquippedWeapon.weaponType)
+        {
+            case WeaponTypes.Axe:
+                audioSource.PlayOneShot(axe);
+                break;
+            case WeaponTypes.Dagger:
+                audioSource.PlayOneShot(dagger);
+                break;
+            case WeaponTypes.Sword:
+                audioSource.PlayOneShot(sword);
+                break;
+        }
     }
 }

@@ -22,6 +22,8 @@ public class Pickup : MonoBehaviour, IInteractable
 	public bool addedToInteractManager = false;
 	public bool InteractionEnabled = true;
 
+    public AudioClip audio;
+
 	public bool interactionSound = true;
 	[HideInInspector]
 	public SphereCollider trigger;
@@ -186,8 +188,9 @@ public class Pickup : MonoBehaviour, IInteractable
 
 			if (interactionSound)
 			{
-				// HINT: Play the sound for this pickup
-			}
+                // HINT: Play the sound for this pickup
+                GetComponent<AudioSource>().PlayOneShot(audio);
+            }
 			if (pickupParticles != null)
 			{
 				GameObject p = Instantiate(pickupParticles, transform.position, Quaternion.identity) as GameObject;

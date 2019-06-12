@@ -166,17 +166,22 @@ public class Weapon : MonoBehaviour, IInteractable
                 if (currentAnimation.IsName("Player_RightSwing"))
                 {
                     attack.swingType = SwingTypes.Right;
+
+  
+                    Debug.Log(GameObject.FindGameObjectWithTag("Player"));
                     // HINT: Weapon combo state 1, you may want to take this into account when playing the weapon swing sound
                 }
                 else if (currentAnimation.IsName("Player_LeftSwing"))
                 {
                     attack.swingType = SwingTypes.Left;
                     // HINT: Weapon combo state 2, you may want to take this into account when playing the weapon swing sound
+
                 }
                 else if (currentAnimation.IsName("Player_TopSwing"))
                 {
                     attack.swingType = SwingTypes.Top;
                     // HINT: Weapon combo state 3, you may want to take this into account when playing the weapon swing sound
+
                 }
 
                 if (!alreadyHitObjects.Contains(col.gameObject))
