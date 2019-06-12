@@ -25,6 +25,8 @@ namespace QuestSystem
         public bool StartQuestLineOnStart = true;
         public List<Quest> Quests;
 
+        AudioSource source;
+
         #region private variables
         private int currentQuestIdx = 0;
         private bool initializingNewQuest = false;
@@ -38,6 +40,9 @@ namespace QuestSystem
             {
                 InitializeQuest(currentQuestIdx);
             }
+
+            source = GameObject.FindGameObjectWithTag("UIAudio").GetComponent<AudioSource>();
+            
         }
 
         private Coroutine InitializeQuest(int questIdx)
@@ -87,6 +92,8 @@ namespace QuestSystem
             if (currentQuestIdx < Quests.Count)
             {
                 // HINT: Questline complete, you may want to play a sound here
+                source.PlayOneShot(Resources.Load<AudioClip>("Audio/Interface/BAS_Quest_CompleteCollection_01"));
+
                 InitializeQuest(currentQuestIdx);
             }
             else
@@ -94,6 +101,7 @@ namespace QuestSystem
                 // HINT: Questline complete, you may want to play a sound here
                 if (OnQuestlineComplete != null)
                 {
+                    //source.PlayOneShot(Resources.Load<AudioClip>("Audio/Interface/BAS_Quest_CompleteCollection_01"));
                     OnQuestlineComplete(this);
                 }
             }

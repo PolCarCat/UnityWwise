@@ -9,8 +9,9 @@ using System.Collections;
 
 public class AdventuressAnimationEventHandler : MonoBehaviour
 {
-    public AudioClip leftFootStep;
-    public AudioClip rightFootStep;
+    public AudioClip[] normalFoodStep;
+    public AudioClip[] runFoodStep;
+
 
     [Header("Object Links")]
     [SerializeField]
@@ -19,8 +20,32 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
     [SerializeField]
     private GameObject runParticles;
 
+    [Header("Combat Audios")]
+    public AudioClip sword1;
+    public AudioClip sword2;
+    public AudioClip sword3;
+
+    public AudioClip dagger1;
+    public AudioClip dagger2;
+    public AudioClip dagger3;
+
+    public AudioClip hammer1;
+    public AudioClip hammer2;
+    public AudioClip hammer3;
+
+    public AudioClip pickaxe1;
+    public AudioClip pickaxe2;
+    public AudioClip pickaxe3;
+
+    public AudioClip axe1;
+    public AudioClip axe2;
+    public AudioClip axe3;
+
     private PlayerFoot foot_L;
     private PlayerFoot foot_R;
+
+    AudioSource audioSource;
+    PlayerMovement movement;
 
     #region private variables
     private bool hasPausedMovement;
@@ -47,6 +72,10 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
         {
             print("Right foot missing");
         }
+
+        audioSource = GetComponent<AudioSource>();
+        movement = GetComponent<PlayerMovement>();
+
     }
 
 
@@ -88,8 +117,15 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
                         // HINT: Play left footstep sound
                         particlePosition = foot_L.transform.position;
                         FootstepParticles(particlePosition);
-                        AudioSource audioSource = GetComponent<AudioSource>();
-                        audioSource.PlayOneShot(leftFootStep, 0.7F);
+
+                        if (movement.currentSpeed > 5)
+                        {
+                            audioSource.PlayOneShot(normalFoodStep[Random.Range(0, runFoodStep.Length)], 7 * movement.currentSpeed / movement.maxSpeed);
+                        }
+                        else
+                        {
+                            audioSource.PlayOneShot(normalFoodStep[Random.Range(0, normalFoodStep.Length)], 7 * movement.currentSpeed / movement.maxSpeed);
+                        }
                     }
                 }
                 else
@@ -99,8 +135,16 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
                         // HINT: Play right footstep sound
                         particlePosition = foot_R.transform.position;
                         FootstepParticles(particlePosition);
-                        AudioSource audioSource = GetComponent<AudioSource>();
-                        audioSource.PlayOneShot(rightFootStep, 0.7F);
+
+                        if (movement.currentSpeed > 5)
+                        {
+                            audioSource.PlayOneShot(normalFoodStep[Random.Range(0, runFoodStep.Length)], 7 * movement.currentSpeed/movement.maxSpeed);
+                        }
+                        else
+                        {
+                            audioSource.PlayOneShot(normalFoodStep[Random.Range(0, runFoodStep.Length)], 7 * movement.currentSpeed / movement.maxSpeed);
+                        }
+                       
                     }
                 }
             }
@@ -145,6 +189,88 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
         Weapon W = PlayerManager.Instance.equippedWeaponInfo;
         // HINT: PlayerManager.Instance.weaponSlot contains the selected weapon;
         // HINT: This is a good place to play the weapon swing sounds
+
+        int state = 0;
+
+        AnimatorStateInfo currentAnimation = PlayerManager.Instance.playerAnimator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentAnimation.IsName("Player_RightSwing")) state = 1;
+        else if (currentAnimation.IsName("Player_LeftSwing")) state = 2;
+        else if (currentAnimation.IsName("Player_TopSwing")) state = 3;
+
+        switch (W.weaponType) 
+        {
+            case WeaponTypes.Axe:
+                switch (state)
+                {
+                    case 1:
+                        audioSource.PlayOneShot(axe1);
+                        break;
+                    case 2:
+                        audioSource.PlayOneShot(axe2);
+                        break;
+                    case 3:
+                        audioSource.PlayOneShot(axe3);
+                        break;
+                }
+            break;
+            case WeaponTypes.Dagger:
+                switch (state)
+                {
+                    case 1:
+                        audioSource.PlayOneShot(dagger1);
+                        break;
+                    case 2:
+                        audioSource.PlayOneShot(dagger2);
+                        break;
+                    case 3:
+                        audioSource.PlayOneShot(dagger3);
+                        break;
+                }
+                break;
+            case WeaponTypes.Sword:
+                switch (state)
+                {
+                    case 1:
+                        audioSource.PlayOneShot(sword1);
+                        break;
+                    case 2:
+                        audioSource.PlayOneShot(sword2);
+                        break;
+                    case 3:
+                        audioSource.PlayOneShot(sword3);
+                        break;
+                }
+                break;
+            case WeaponTypes.PickAxe:
+                switch (state)
+                {
+                    case 1:
+                        audioSource.PlayOneShot(pickaxe1);
+                        break;
+                    case 2:
+                        audioSource.PlayOneShot(pickaxe2);
+                        break;
+                    case 3:
+                        audioSource.PlayOneShot(pickaxe3);
+                        break;
+                }
+                break;
+            case WeaponTypes.Hammer:
+                switch (state)
+                {
+                    case 1:
+                        audioSource.PlayOneShot(hammer1);
+                        break;
+                    case 2:
+                        audioSource.PlayOneShot(hammer2);
+                        break;
+                    case 3:
+                        audioSource.PlayOneShot(hammer3);
+                        break;
+                }
+                break;
+        }
     }
 
     public void PauseMovement()

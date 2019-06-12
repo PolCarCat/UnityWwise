@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public float sprintSpeed = 12f;
     public float navMeshCheckDistance = 0.5f;
     public float speedWhileAttacking = 0.8f;
+    public float currentSpeed = 0;
 
     [Header("Physics Materials")]
     public PhysicMaterial frictionPhysMat;
@@ -127,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
             if (NavMesh.SamplePosition(transform.position, out hit, navMeshCheckDistance, LayerMask.NameToLayer("Ground"))) //Limit to using the NavMesh
             {
                 playerBody.velocity = new Vector3((movementVector.x * (maxSpeed + sprintAdd)) * Time.fixedDeltaTime * 20f * speedModifier, playerBody.velocity.y + (movementVector.y * Time.deltaTime), (movementVector.z * (maxSpeed + sprintAdd)) * Time.fixedDeltaTime * 20f * speedModifier); //NORMAL MOVEMENT
+                currentSpeed = playerBody.velocity.magnitude;
             }
         }
 

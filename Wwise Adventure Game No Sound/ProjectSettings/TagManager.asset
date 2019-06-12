@@ -17,6 +17,7 @@ TagManager:
   - PlayerHead
   - TeleportDestination
   - Wwizard
+  - UIAudio
   layers:
   - Default
   - TransparentFX

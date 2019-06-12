@@ -17,6 +17,9 @@ public class QuestManager : Singleton<QuestManager>
     [Header("Dialogue")]
     public bool FreezePlayerMovement = true;
 
+    AudioSource source;
+
+
     public class QuestItemInfo
     {
         public GameObject Item;
@@ -57,6 +60,7 @@ public class QuestManager : Singleton<QuestManager>
     void Awake()
     {
         QuestItems = new List<QuestItemInfo>();
+        source = GameObject.FindGameObjectWithTag("UIAudio").GetComponent<AudioSource>();
     }
 
     public static void PushQuestBarUpdate()
